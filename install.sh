@@ -2,9 +2,12 @@
 set -euo pipefail
 
 DOTFILES_DIR="${0:A:h}"
+source "$DOTFILES_DIR/scripts/lib.sh"
+
 export DOTFILES_DIR
 export AGENT_NAME="${AGENT_NAME:-$(id -F 2>/dev/null || id -un)}"
-export GIT_EMAIL="${GIT_EMAIL:-od.polo@gmail.com}"
+require_git_email "${GIT_EMAIL:-}"
+export GIT_EMAIL
 export LINK_PROFILES="${LINK_PROFILES:-yes}"
 export RUN_AUTH="${RUN_AUTH:-no}"
 
@@ -23,4 +26,3 @@ fi
 if [[ "$RUN_AUTH" == "yes" ]]; then
   "$DOTFILES_DIR/scripts/auth.sh"
 fi
-

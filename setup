@@ -5,6 +5,29 @@ DOTFILES_DIR="${0:A:h}"
 
 source "$DOTFILES_DIR/scripts/lib.sh"
 
+SETUP_GIT_EMAIL="${GIT_EMAIL:-}"
+
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    --git-email)
+      [[ "$#" -ge 2 ]] || fail "--git-email requires a value"
+      SETUP_GIT_EMAIL="$2"
+      shift 2
+      ;;
+    --git-email=*)
+      SETUP_GIT_EMAIL="${1#--git-email=}"
+      shift
+      ;;
+    -h|--help)
+      print "Usage: ./setup [--git-email email@example.com]"
+      exit 0
+      ;;
+    *)
+      fail "unknown option: $1"
+      ;;
+  esac
+done
+
 ensure_macos
 ensure_homebrew
 ensure_gum
@@ -20,7 +43,8 @@ CURRENT_USER="$(id -un)"
 DEFAULT_NAME="$(default_agent_name "$CURRENT_USER")"
 
 AGENT_NAME="$(gum input --prompt "Agent name: " --value "$DEFAULT_NAME")"
-GIT_EMAIL="$(gum input --prompt "Git email: " --value "od.polo@gmail.com")"
+GIT_EMAIL="$(gum input --prompt "Git email: " --value "$SETUP_GIT_EMAIL")"
+require_git_email "$GIT_EMAIL"
 
 LINK_PROFILES="no"
 if gum confirm "Back up and symlink zsh/git config for $CURRENT_USER?" --default=true; then
@@ -57,4 +81,3 @@ else
 fi
 
 gum style --foreground 82 "Setup complete for $CURRENT_USER."
-

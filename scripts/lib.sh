@@ -45,3 +45,9 @@ default_agent_name() {
     *) print "$1" ;;
   esac
 }
+
+require_git_email() {
+  local email="$1"
+  [[ -n "$email" ]] || fail "GIT_EMAIL is required. Pass --git-email to setup or set GIT_EMAIL for install.sh."
+  [[ "$email" == *@*.* ]] || fail "GIT_EMAIL must look like an email address."
+}

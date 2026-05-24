@@ -5,7 +5,7 @@ DOTFILES_DIR="${DOTFILES_DIR:-${0:A:h:h}}"
 source "$DOTFILES_DIR/scripts/lib.sh"
 
 AGENT_NAME="${AGENT_NAME:-$(default_agent_name "$(id -un)")}"
-GIT_EMAIL="${GIT_EMAIL:-od.polo@gmail.com}"
+require_git_email "${GIT_EMAIL:-}"
 
 backup_if_unmanaged "$HOME/.gitignore"
 ln -sfn "$DOTFILES_DIR/git/gitignore" "$HOME/.gitignore"
