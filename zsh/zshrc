@@ -20,6 +20,7 @@ fi
 
 export PATH="./bin:./node_modules/.bin:$HOME/.local/bin:$HOME/Library/Python/3.12/bin:$PATH"
 export HERMES_SHARED="/Users/Shared"
+export HERMES_CODE="/Users/Shared/code"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EDITOR="${EDITOR:-nano}"
@@ -27,6 +28,7 @@ export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 export COREPACK_ENABLE_STRICT=1
 
 alias p='pnpm'
+alias code-shared='cd /Users/Shared/code'
 alias npm='pnpm'
 alias npx='pnpm dlx'
 alias yarn='pnpm'

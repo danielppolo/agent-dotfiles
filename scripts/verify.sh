@@ -18,6 +18,7 @@ for cmd in gum zsh git gh codex node npm pnpm rg jq pipx hermes; do
 done
 
 print "HERMES_SHARED=${HERMES_SHARED:-}"
+print "HERMES_CODE=${HERMES_CODE:-}"
 print "git user.name=$(git config --global --get user.name || true)"
 print "git user.email=$(git config --global --get user.email || true)"
 
@@ -27,6 +28,11 @@ if command -v node >/dev/null 2>&1; then
     missing=1
   }
 fi
+
+[[ "${HERMES_CODE:-}" == "/Users/Shared/code" ]] || {
+  print "✗ HERMES_CODE is not /Users/Shared/code"
+  missing=1
+}
 
 if command -v pnpm >/dev/null 2>&1; then
   pnpm --version >/dev/null
