@@ -30,20 +30,23 @@ fi
 
 if command -v pnpm >/dev/null 2>&1; then
   pnpm --version >/dev/null
-  [[ "$(pnpm config get package-manager-strict)" == "true" ]] || {
-    print "✗ pnpm package-manager-strict is not enabled"
-    missing=1
-  }
 fi
 
 if [[ -f "$HOME/.npmrc" ]]; then
-  grep -q '^package-manager-strict=true$' "$HOME/.npmrc" || {
-    print "✗ ~/.npmrc does not set package-manager-strict=true"
+  grep -q '^fund=false$' "$HOME/.npmrc" || {
+    print "✗ ~/.npmrc was not written by agent-dotfiles"
     missing=1
   }
 else
   print "✗ missing ~/.npmrc"
   missing=1
+fi
+
+if [[ -f "$HOME/.zshrc" ]]; then
+  grep -q "alias npm='pnpm'" "$HOME/.zshrc" || {
+    print "✗ ~/.zshrc does not default npm to pnpm"
+    missing=1
+  }
 fi
 
 if [[ "$missing" -ne 0 ]]; then

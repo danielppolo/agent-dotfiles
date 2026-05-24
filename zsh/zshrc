@@ -24,7 +24,13 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EDITOR="${EDITOR:-nano}"
 export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-export npm_config_package_manager_strict=true
+export COREPACK_ENABLE_STRICT=1
+
+alias p='pnpm'
+alias npm='pnpm'
+alias npx='pnpm dlx'
+alias yarn='pnpm'
+alias yarnpkg='pnpm'
 
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
