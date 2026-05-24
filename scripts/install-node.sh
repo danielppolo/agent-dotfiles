@@ -14,7 +14,7 @@ if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
 fi
 
 source "$NVM_DIR/nvm.sh"
-nvm install 22
+nvm install 22 || nvm use 22
 nvm alias default 22
 nvm use default
 corepack enable
