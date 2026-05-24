@@ -28,9 +28,26 @@ if command -v node >/dev/null 2>&1; then
   }
 fi
 
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm --version >/dev/null
+  [[ "$(pnpm config get package-manager-strict)" == "true" ]] || {
+    print "✗ pnpm package-manager-strict is not enabled"
+    missing=1
+  }
+fi
+
+if [[ -f "$HOME/.npmrc" ]]; then
+  grep -q '^package-manager-strict=true$' "$HOME/.npmrc" || {
+    print "✗ ~/.npmrc does not set package-manager-strict=true"
+    missing=1
+  }
+else
+  print "✗ missing ~/.npmrc"
+  missing=1
+fi
+
 if [[ "$missing" -ne 0 ]]; then
   exit 1
 fi
 
 print "Verification passed."
-

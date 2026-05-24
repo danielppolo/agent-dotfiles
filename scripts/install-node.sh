@@ -17,5 +17,13 @@ source "$NVM_DIR/nvm.sh"
 nvm install 22
 nvm alias default 22
 nvm use default
-corepack enable || true
+corepack enable
+corepack prepare pnpm@latest --activate
+pnpm config set package-manager-strict true
 
+cat > "$HOME/.npmrc" <<'EOF'
+package-manager-strict=true
+engine-strict=false
+fund=false
+audit=false
+EOF

@@ -4,8 +4,6 @@ ZSH_THEME="robbyrussell"
 plugins=(
   git
   github
-  npm
-  yarn
   z
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -25,6 +23,8 @@ export HERMES_SHARED="/Users/Shared"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EDITOR="${EDITOR:-nano}"
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+export npm_config_package_manager_strict=true
 
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
@@ -34,4 +34,3 @@ fi
 if [[ -s "$NVM_DIR/bash_completion" ]]; then
   source "$NVM_DIR/bash_completion"
 fi
-
