@@ -1,0 +1,60 @@
+#!/bin/zsh
+set -euo pipefail
+
+DOTFILES_DIR="${0:A:h}"
+
+source "$DOTFILES_DIR/scripts/lib.sh"
+
+ensure_macos
+ensure_homebrew
+ensure_gum
+
+gum style \
+  --border rounded \
+  --padding "1 2" \
+  --margin "1 0" \
+  --foreground 212 \
+  "Agent Dotfiles Setup"
+
+CURRENT_USER="$(id -un)"
+DEFAULT_NAME="$(default_agent_name "$CURRENT_USER")"
+
+AGENT_NAME="$(gum input --prompt "Agent name: " --value "$DEFAULT_NAME")"
+GIT_EMAIL="$(gum input --prompt "Git email: " --value "od.polo@gmail.com")"
+
+LINK_PROFILES="no"
+if gum confirm "Back up and symlink zsh/git config for $CURRENT_USER?" --default=true; then
+  LINK_PROFILES="yes"
+fi
+
+RUN_AUTH="no"
+if gum confirm "Run interactive auth after install? (gh, codex, hermes)" --default=false; then
+  RUN_AUTH="yes"
+fi
+
+export AGENT_NAME
+export GIT_EMAIL
+export LINK_PROFILES
+export RUN_AUTH
+export DOTFILES_DIR
+
+gum spin --title "Installing Homebrew tools" -- "$DOTFILES_DIR/scripts/install-homebrew-tools.sh"
+gum spin --title "Installing Oh My Zsh and plugins" -- "$DOTFILES_DIR/scripts/install-zsh.sh"
+gum spin --title "Installing nvm and Node 22 LTS" -- "$DOTFILES_DIR/scripts/install-node.sh"
+gum spin --title "Installing Hermes" -- "$DOTFILES_DIR/scripts/install-hermes.sh"
+gum spin --title "Configuring git" -- "$DOTFILES_DIR/scripts/configure-git.sh"
+
+if [[ "$LINK_PROFILES" == "yes" ]]; then
+  gum spin --title "Linking shell profiles" -- "$DOTFILES_DIR/scripts/link-profiles.sh"
+fi
+
+"$DOTFILES_DIR/scripts/verify.sh"
+
+if [[ "$RUN_AUTH" == "yes" ]]; then
+  "$DOTFILES_DIR/scripts/auth.sh"
+else
+  gum style --foreground 214 "Skipped auth. Run gh auth login, codex login, and hermes setup/auth per user when ready."
+fi
+
+gum style --foreground 82 "Setup complete for $CURRENT_USER."
+

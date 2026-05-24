@@ -1,0 +1,31 @@
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+  ui = auto
+
+[core]
+  pager = less -FRSX
+  excludesfile = ~/.gitignore
+
+[alias]
+  co = checkout
+  st = status -sb
+  br = branch
+  ci = commit
+  fo = fetch origin
+  d = !git --no-pager diff
+  stat = !git --no-pager diff --stat
+  unstage = reset HEAD --
+  lg = log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'
+
+[help]
+  autocorrect = 1
+
+[push]
+  default = simple
+
+[init]
+  defaultBranch = main
+

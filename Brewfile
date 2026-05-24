@@ -1,0 +1,12 @@
+brew "gum"
+brew "git"
+brew "gh"
+brew "ripgrep"
+brew "jq"
+brew "wget"
+brew "httpie"
+brew "pnpm"
+brew "python"
+brew "pipx"
+cask "codex"
+
